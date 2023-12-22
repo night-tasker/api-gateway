@@ -1,0 +1,6 @@
+@NightTasker.ApiGateway_HostAddress = http://localhost:5184
+
+GET {{NightTasker.ApiGateway_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
