@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "dgSpecHash": "Bc6a8d5+06GSiHccm9tZg8gHyy4d1ukWl7NENKu2mTpqcXO+n/Qpby5uM9dV9uY7ittjOPNsSz3szlMf4DgK4Q==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\mrupr\\RiderProjects\\night-tasker-api-gateways\\api-gateway\\NightTasker.ApiGateway\\NightTasker.ApiGateway\\NightTasker.ApiGateway.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\mrupr\\.nuget\\packages\\microsoft.aspnetcore.openapi\\8.0.0\\microsoft.aspnetcore.openapi.8.0.0.nupkg.sha512",
+    "C:\\Users\\mrupr\\.nuget\\packages\\microsoft.extensions.apidescription.server\\6.0.5\\microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
+    "C:\\Users\\mrupr\\.nuget\\packages\\microsoft.openapi\\1.4.3\\microsoft.openapi.1.4.3.nupkg.sha512",
+    "C:\\Users\\mrupr\\.nuget\\packages\\swashbuckle.aspnetcore\\6.4.0\\swashbuckle.aspnetcore.6.4.0.nupkg.sha512",
+    "C:\\Users\\mrupr\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.4.0\\swashbuckle.aspnetcore.swagger.6.4.0.nupkg.sha512",
+    "C:\\Users\\mrupr\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.4.0\\swashbuckle.aspnetcore.swaggergen.6.4.0.nupkg.sha512",
+    "C:\\Users\\mrupr\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.4.0\\swashbuckle.aspnetcore.swaggerui.6.4.0.nupkg.sha512"
+  ],
+  "logs": []
+}
