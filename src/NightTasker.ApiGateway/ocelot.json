@@ -1,0 +1,12 @@
+{
+  "Routes": [{
+    "DownstreamPathTemplate": "/api/v1/users/register",
+    "DownstreamScheme": "http",
+    "DownstreamHostAndPorts": [
+      {
+        "Host": "#{Paths.Identity.Host}"
+      }
+    ],
+    "UpstreamPathTemplate": "/api/users/register"
+  }]
+}
