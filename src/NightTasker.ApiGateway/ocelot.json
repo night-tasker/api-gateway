@@ -1,12 +1,52 @@
 {
-  "Routes": [{
-    "DownstreamPathTemplate": "/api/v1/users/register",
-    "DownstreamScheme": "http",
-    "DownstreamHostAndPorts": [
-      {
-        "Host": "#{Paths.Identity.Host}"
-      }
-    ],
-    "UpstreamPathTemplate": "/api/users/register"
-  }]
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/api/v1/users/register",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "${Paths:Identity:Host}",
+          "Port": 5001
+        }
+      ],
+      "UpstreamHttpMethod": [ "POST" ],
+      "UpstreamPathTemplate": "/api/users/register"
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/users/login",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "${Paths:Identity:Host}",
+          "Port": 5001
+        }
+      ],
+      "UpstreamHttpMethod": [ "POST" ],
+      "UpstreamPathTemplate": "/api/users/login"
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/users/current",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "${Paths:Identity:Host}",
+          "Port": 5001
+        }
+      ],
+      "UpstreamHttpMethod": [ "GET" ],
+      "UpstreamPathTemplate": "/api/users/current"
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/users/refresh-token",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "${Paths:Identity:Host}",
+          "Port": 5001
+        }
+      ],
+      "UpstreamHttpMethod": [ "POST" ],
+      "UpstreamPathTemplate": "/api/users/refresh-token"
+    }
+  ]
 }
