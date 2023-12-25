@@ -1,16 +1,17 @@
 using NightTasker.ApiGateway.Configuration;
 using NightTasker.ApiGateway.Constants;
-using Ocelot.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.AddConfigurationFiles();
+builder.AddConfigurationFiles().Wait();
 builder.Services.AddDefaultCorsPolicy();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.ConfigureOcelot();
+
+builder.Services.AddSettings(builder.Configuration);
 
 var app = builder.Build();
 

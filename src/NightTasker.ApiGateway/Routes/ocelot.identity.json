@@ -5,7 +5,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "${Paths:Identity:Host}",
+          "Host": "${RouteConfigurationSettings:Identity:Host}",
           "Port": 5001
         }
       ],
@@ -17,7 +17,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "${Paths:Identity:Host}",
+          "Host": "${RouteConfigurationSettings:Identity:Host}",
           "Port": 5001
         }
       ],
@@ -29,7 +29,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "${Paths:Identity:Host}",
+          "Host": "${RouteConfigurationSettings:Identity:Host}",
           "Port": 5001
         }
       ],
@@ -41,7 +41,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "${Paths:Identity:Host}",
+          "Host": "${RouteConfigurationSettings:Identity:Host}",
           "Port": 5001
         }
       ],

@@ -1,18 +1,38 @@
-﻿namespace NightTasker.ApiGateway.Services;
+﻿using Microsoft.Extensions.Options;
+using NightTasker.ApiGateway.Contracts;
+using NightTasker.ApiGateway.Settings;
 
-public class OcelotRoutesService(IConfiguration configuration)
+namespace NightTasker.ApiGateway.Services;
+
+public class OcelotRoutesService(
+    IConfiguration configuration,
+    RouteConfigurationSettings routeConfigurationSettings) : IOcelotRoutesService
 {
     private readonly IConfiguration _configuration =
         configuration ?? throw new ArgumentNullException(nameof(configuration));
 
-    public async  Task ReplaceEnvironmentVariables()
+    private readonly RouteConfigurationSettings _routeConfigurationSettings = 
+        routeConfigurationSettings ?? throw new ArgumentNullException(nameof(routeConfigurationSettings));
+    public Task<string[]> GenerateOcelotFiles()
     {
-        var originFilePath = GetOriginFilePath();
-        var generatedFilePath = GetGeneratedFilePath();
+        var routeConfigurations = new[]
+        {
+            _routeConfigurationSettings.Identity,
+            _routeConfigurationSettings.UserHub
+        };
 
+        Task<string>[] tasks = routeConfigurations
+            .Select(ReplaceEnvironmentVariablesInFile)
+            .ToArray();
+
+        return Task.WhenAll(tasks);
+    }
+    private async Task<string> ReplaceEnvironmentVariablesInFile(
+        RouteConfiguration routeConfiguration)
+    {
         var newFileLines = new List<string>();
         
-        await foreach (var line in File.ReadLinesAsync(originFilePath))
+        await foreach (var line in File.ReadLinesAsync(routeConfiguration.OriginFilePath))
         {
             var variableName = SearchEnvironmentVariable(line);
 
@@ -28,7 +48,8 @@ public class OcelotRoutesService(IConfiguration configuration)
             newFileLines.Add(newLine);
         }
         
-        await File.WriteAllLinesAsync(generatedFilePath, newFileLines);
+        await File.WriteAllLinesAsync(routeConfiguration.GeneratedFilePath, newFileLines);
+        return routeConfiguration.GeneratedFilePath;
     }
 
     private string GetEnvironmentVariableValue(string variableName)
