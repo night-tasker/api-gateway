@@ -1,0 +1,26 @@
+{
+  "SwaggerEndPoints": [
+    {
+      "Key": "api-gateway",
+      "TransformByOcelotConfig": false,
+      "Config": [
+        {
+          "Name": "api-gateway",
+          "Version": "1.0",
+          "Url": "127.0.0.1:5000/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "identity",
+      "TransformByOcelotConfig": false,
+      "Config": [
+        {
+          "Name": "Identity.API",
+          "Version": "1.0",
+          "Url": "${RouteConfigurationSettings:Identity:Host}:${RouteConfigurationSettings:Identity:Port}/swagger/v1/swagger.json"
+        }
+      ]
+    }
+  ]
+}

@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Options;
-using NightTasker.ApiGateway.Contracts;
+﻿using NightTasker.ApiGateway.Contracts;
 using NightTasker.ApiGateway.Settings;
 
 namespace NightTasker.ApiGateway.Services;
@@ -10,16 +9,19 @@ public class OcelotRoutesService(
 {
     private readonly IConfiguration _configuration =
         configuration ?? throw new ArgumentNullException(nameof(configuration));
-
     private readonly RouteConfigurationSettings _routeConfigurationSettings = 
         routeConfigurationSettings ?? throw new ArgumentNullException(nameof(routeConfigurationSettings));
+    
     public Task<string[]> GenerateOcelotFiles()
     {
         var routeConfigurations = new[]
         {
             _routeConfigurationSettings.Identity,
-            _routeConfigurationSettings.UserHub
+            _routeConfigurationSettings.UserHub,
+            _routeConfigurationSettings.SwaggerEndPoints
         };
+        
+        Directory.CreateDirectory("GeneratedRoutes");
 
         Task<string>[] tasks = routeConfigurations
             .Select(ReplaceEnvironmentVariablesInFile)
@@ -27,6 +29,7 @@ public class OcelotRoutesService(
 
         return Task.WhenAll(tasks);
     }
+    
     private async Task<string> ReplaceEnvironmentVariablesInFile(
         RouteConfiguration routeConfiguration)
     {
@@ -34,27 +37,37 @@ public class OcelotRoutesService(
         
         await foreach (var line in File.ReadLinesAsync(routeConfiguration.OriginFilePath))
         {
-            var variableName = SearchEnvironmentVariable(line);
+            var variableNames = SearchEnvironmentVariables(line);
 
-            if (variableName is null)
+            if (!variableNames.Any())
             {
                 newFileLines.Add(line);
                 continue;
             }
-
-            var value = GetEnvironmentVariableValue(variableName!);
             
-            var newLine = line.Replace($"${{{variableName}}}", value);
+            var newLine = ReplaceEnvironmentVariablesInLine(line, variableNames);
             newFileLines.Add(newLine);
         }
         
         await File.WriteAllLinesAsync(routeConfiguration.GeneratedFilePath, newFileLines);
         return routeConfiguration.GeneratedFilePath;
     }
+    
+    private string ReplaceEnvironmentVariablesInLine(string line, IReadOnlyCollection<string> variableNames)
+    {
+        foreach (var variableName in variableNames)
+        {
+            var value = GetEnvironmentVariableValue(variableName);
+            
+            line = line.Replace($"${{{variableName}}}", value);
+        }
+
+        return line;
+    }
 
     private string GetEnvironmentVariableValue(string variableName)
     {
-        var value = configuration[variableName!];
+        var value = _configuration[variableName!];
         if (value == null)
         {
             throw new InvalidOperationException($"No value for variable {variableName}");
@@ -63,15 +76,30 @@ public class OcelotRoutesService(
         return value;
     }
     
-    private string? SearchEnvironmentVariable(string line)
+    private IReadOnlyCollection<string> SearchEnvironmentVariables(string line)
     {
-        var index = line.IndexOf('$');
-        if (index == -1)
+        var envVariables = new List<string>();
+        while (SearchEnvironmentVariable(line, out string? variableName, out string restString))
         {
-            return null;
+            line = restString;
+            envVariables.Add(variableName!);
         }
-            
-        var substring = line.Substring(index + 1);
+
+        return envVariables;
+    }
+    
+    private bool SearchEnvironmentVariable(string line, out string? variableName, out string restString)
+    {
+        var indexOfDollar = line.IndexOf('$');
+
+        if (indexOfDollar == -1)
+        {
+            variableName = null;
+            restString = line;
+            return false;
+        }
+        
+        var substring = line.Substring(indexOfDollar + 1);
         if (substring[0] != '{')
         {
             throw new InvalidOperationException("After $ there must be a {");
@@ -82,30 +110,8 @@ public class OcelotRoutesService(
         {
             throw new InvalidOperationException("After { there must be a }");
         }
-        
-        var variableName = substring.Substring(1, indexOfClosingBrace - 1);
-        return variableName;
-    }
-    
-    private string GetOriginFilePath()
-    {
-        var filePath = _configuration["RoutesConfiguration:FilePath:Origin"];
-        if (filePath is null)
-        {
-            throw new InvalidOperationException("No value for RoutesConfiguration:FilePath:Origin");
-        }
-        
-        return filePath;
-    }
-
-    private string GetGeneratedFilePath()
-    {
-        var filePath = _configuration["RoutesConfiguration:FilePath:Generated"];
-        if (filePath is null)
-        {
-            throw new InvalidOperationException("No value for RoutesConfiguration:FilePath:Generated");
-        }
-        
-        return filePath;
+        restString = line.Remove(indexOfDollar, indexOfClosingBrace - indexOfDollar + 1); 
+        variableName = substring.Substring(1, indexOfClosingBrace - 1);
+        return true;
     }
 }

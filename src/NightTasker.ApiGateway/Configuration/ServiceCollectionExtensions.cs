@@ -1,6 +1,7 @@
 ﻿using NightTasker.ApiGateway.Constants;
 using NightTasker.ApiGateway.Settings;
 using Ocelot.DependencyInjection;
+using Ocelot.Provider.Polly;
 
 namespace NightTasker.ApiGateway.Configuration;
 
@@ -16,9 +17,15 @@ public static class ServiceCollectionExtensions
         return services;
     }
     
-    public static IServiceCollection ConfigureOcelot(this IServiceCollection services)
+    public static IServiceCollection ConfigureOcelot(
+        this IServiceCollection services,
+        IConfiguration configuration)
     {
-        services.AddOcelot();
+        services.AddOcelot().AddPolly();
+        services.AddSwaggerForOcelot(configuration, options =>
+        {
+            options.GenerateDocsForGatewayItSelf = true;
+        });
         return services;
     }
 

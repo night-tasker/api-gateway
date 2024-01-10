@@ -6,7 +6,11 @@ public static class WebApplicationExtensions
 {
     public static WebApplication ConfigureOcelot(this WebApplication app)
     {
-        app.UseOcelot().Wait();
+        app.UseSwaggerForOcelotUI(options =>
+        {
+            options.PathToSwaggerGenerator = "/swagger/docs";
+            options.ReConfigureUpstreamSwaggerJson = AlterUpstream.AlterUpstreamSwaggerJson;
+        }).UseOcelot().Wait();
         return app;
     }
 }

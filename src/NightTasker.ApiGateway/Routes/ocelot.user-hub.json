@@ -1,7 +1,7 @@
 {
   "Routes": [
     {
-      "DownstreamPathTemplate": "/api/v1/user-info/current-user",
+      "DownstreamPathTemplate": "/api/v1/user-info/current",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -9,8 +9,8 @@
           "Port": 5002
         }
       ],
-      "UpstreamHttpMethod": [ "GET" ],
-      "UpstreamPathTemplate": "/api/user-info/current-user"
+      "UpstreamHttpMethod": ["GET", "PUT"],
+      "UpstreamPathTemplate": "/api/user-info/current"
     }
   ]
 }

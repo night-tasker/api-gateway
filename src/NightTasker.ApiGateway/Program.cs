@@ -9,7 +9,7 @@ builder.Services.AddDefaultCorsPolicy();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.ConfigureOcelot();
+builder.Services.ConfigureOcelot(builder.Configuration);
 
 builder.Services.AddSettings(builder.Configuration);
 
