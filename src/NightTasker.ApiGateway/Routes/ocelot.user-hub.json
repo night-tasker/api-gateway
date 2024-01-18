@@ -11,6 +11,30 @@
       ],
       "UpstreamHttpMethod": ["GET", "PUT"],
       "UpstreamPathTemplate": "/api/user-info/current"
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/user-images/current-user",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "${RouteConfigurationSettings:UserHub:Host}",
+          "Port": 5002
+        }
+      ],
+      "UpstreamHttpMethod": ["GET", "PUT"],
+      "UpstreamPathTemplate": "/api/user-images/current-user"
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/user-images/current-user/url",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "${RouteConfigurationSettings:UserHub:Host}",
+          "Port": 5002
+        }
+      ],
+      "UpstreamHttpMethod": ["GET", "PUT"],
+      "UpstreamPathTemplate": "/api/user-images/current-user/url"
     }
   ]
 }
