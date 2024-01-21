@@ -21,8 +21,44 @@
           "Port": 5002
         }
       ],
-      "UpstreamHttpMethod": ["GET", "PUT"],
+      "UpstreamHttpMethod": ["GET"],
       "UpstreamPathTemplate": "/api/user-images/current-user"
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/user-images/current-user/{userImageId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "${RouteConfigurationSettings:UserHub:Host}",
+          "Port": 5002
+        }
+      ],
+      "UpstreamHttpMethod": ["DELETE"],
+      "UpstreamPathTemplate": "/api/user-images/current-user/{userImageId}"
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/user-images/current-user/upload",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "${RouteConfigurationSettings:UserHub:Host}",
+          "Port": 5002
+        }
+      ],
+      "UpstreamHttpMethod": ["POST"],
+      "UpstreamPathTemplate": "/api/user-images/current-user/upload"
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/user-images/current-user/active/url",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "${RouteConfigurationSettings:UserHub:Host}",
+          "Port": 5002
+        }
+      ],
+      "UpstreamHttpMethod": ["GET"],
+      "UpstreamPathTemplate": "/api/user-images/current-user/active/url"
     },
     {
       "DownstreamPathTemplate": "/api/v1/user-images/current-user/url",
@@ -33,8 +69,20 @@
           "Port": 5002
         }
       ],
-      "UpstreamHttpMethod": ["GET", "PUT"],
+      "UpstreamHttpMethod": ["GET"],
       "UpstreamPathTemplate": "/api/user-images/current-user/url"
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/user-images/current-user/active/{userImageId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "${RouteConfigurationSettings:UserHub:Host}",
+          "Port": 5002
+        }
+      ],
+      "UpstreamHttpMethod": ["POST"],
+      "UpstreamPathTemplate": "/api/user-images/current-user/active/{userImageId}"
     }
   ]
 }
