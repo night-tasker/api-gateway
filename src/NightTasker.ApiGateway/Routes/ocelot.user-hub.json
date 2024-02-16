@@ -1,7 +1,7 @@
 {
   "Routes": [
     {
-      "DownstreamPathTemplate": "/api/v1/user-info/current",
+      "DownstreamPathTemplate": "/api/v1/users/current",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -10,7 +10,7 @@
         }
       ],
       "UpstreamHttpMethod": ["GET", "PUT"],
-      "UpstreamPathTemplate": "/api/user-info/current"
+      "UpstreamPathTemplate": "/api/user-hub/users/current"
     },
     {
       "DownstreamPathTemplate": "/api/v1/user-images/current-user",
@@ -83,6 +83,54 @@
       ],
       "UpstreamHttpMethod": ["POST"],
       "UpstreamPathTemplate": "/api/user-images/current-user/active/{userImageId}"
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/organizations",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "${RouteConfigurationSettings:UserHub:Host}",
+          "Port": 5002
+        }
+      ],
+      "UpstreamHttpMethod": ["GET", "POST"],
+      "UpstreamPathTemplate": "/api/organizations"
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/organizations/{organizationId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "${RouteConfigurationSettings:UserHub:Host}",
+          "Port": 5002
+        }
+      ],
+      "UpstreamHttpMethod": ["GET", "PUT", "DELETE"],
+      "UpstreamPathTemplate": "/api/organizations/{organizationId}"
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/organizations/search",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "${RouteConfigurationSettings:UserHub:Host}",
+          "Port": 5002
+        }
+      ],
+      "UpstreamHttpMethod": ["POST"],
+      "UpstreamPathTemplate": "/api/organizations/search"
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/organizations/{organizationId}/role",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "${RouteConfigurationSettings:UserHub:Host}",
+          "Port": 5002
+        }
+      ],
+      "UpstreamHttpMethod": ["GET"],
+      "UpstreamPathTemplate": "/api/organizations/{organizationId}/role"
     }
   ]
 }
